@@ -5,9 +5,11 @@ import com.hexabank.client.domain.model.Cliente;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Profile("test")
 public class InMemoryClienteRepositoryAdapter implements ClienteRepositoryPort {
 
     private final Map<Long, Cliente> store = new HashMap<>();

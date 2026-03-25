@@ -1,15 +1,15 @@
 package com.hexabank.client.domain.model;
 
 /**
- * Pure domain representation of a Cliente.
- * No framework annotations, no Lombok. Immutable value object with validation.
+ * Pure domain representation of a Persona.
+ * Immutable and validates required fields.
  */
-public final class Cliente {
+public final class Persona {
 
     private final Long id;
     private final String nombre;
 
-    public Cliente(Long id, String nombre) {
+    public Persona(Long id, String nombre) {
         if (nombre == null || nombre.isBlank()) {
             throw new IllegalArgumentException("Nombre requerido");
         }
@@ -27,7 +27,7 @@ public final class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{id=" + id + ", nombre='" + nombre + "'}";
+        return "Persona{id=" + id + ", nombre='" + nombre + "'}";
     }
 
 }
