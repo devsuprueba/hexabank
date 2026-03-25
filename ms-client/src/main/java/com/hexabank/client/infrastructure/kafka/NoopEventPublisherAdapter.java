@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * 'kafka' so the application can start locally without Kafka broker.
  */
 @Component
-@Profile("!kafka")
+@Profile("!kafka & !test")
 public class NoopEventPublisherAdapter implements EventPublisherPort {
 
     private static final Logger log = LoggerFactory.getLogger(NoopEventPublisherAdapter.class);
