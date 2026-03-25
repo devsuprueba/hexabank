@@ -2,6 +2,7 @@ package com.hexabank.client.application.service;
 
 import com.hexabank.client.application.port.ClienteRepositoryPort;
 import com.hexabank.client.domain.model.Cliente;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,10 @@ public class ClienteService {
 
     public Cliente create(Cliente cliente) {
         return repository.save(cliente);
+    }
+
+    public List<Cliente> findAll() {
+        return repository.findAll();
     }
 
     public void delete(Long id) {

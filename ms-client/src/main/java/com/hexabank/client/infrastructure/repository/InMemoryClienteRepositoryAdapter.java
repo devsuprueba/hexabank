@@ -2,7 +2,9 @@ package com.hexabank.client.infrastructure.repository;
 
 import com.hexabank.client.application.port.ClienteRepositoryPort;
 import com.hexabank.client.domain.model.Cliente;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.context.annotation.Profile;
@@ -28,5 +30,10 @@ public class InMemoryClienteRepositoryAdapter implements ClienteRepositoryPort {
     @Override
     public void deleteById(Long id) {
         store.remove(id);
+    }
+
+    @Override
+    public List<Cliente> findAll() {
+        return new ArrayList<>(store.values());
     }
 }

@@ -3,6 +3,7 @@ package com.hexabank.client.infrastructure.repository;
 import com.hexabank.client.application.port.ClienteRepositoryPort;
 import com.hexabank.client.domain.model.Cliente;
 import com.hexabank.client.infrastructure.entity.ClienteEntity;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -35,6 +36,11 @@ public class JpaClienteRepositoryAdapter implements ClienteRepositoryPort {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<Cliente> findAll() {
+        return repository.findAll().stream().map(this::toDomain).toList();
     }
 
     private Cliente toDomain(ClienteEntity e) {
