@@ -4,22 +4,46 @@ import com.hexabank.client.application.port.EventPublisherPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+import com.hexabank.client.infrastructure.config.ClientsKafkaProperties;
 
 /**
- * Simple infrastructure adapter for EventPublisherPort.
- * For now it logs events; a future feature will replace it with a Kafka implementation.
+ * Kafka-backed implementation of EventPublisherPort. Active under 'kafka' profile.
  */
 @Component
-@Profile("!test")
+@Profile("kafka")
 public class EventPublisherAdapter implements EventPublisherPort {
 
     private static final Logger log = LoggerFactory.getLogger(EventPublisherAdapter.class);
 
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final ClientsKafkaProperties props;
+
+    public EventPublisherAdapter(KafkaTemplate<String, Object> kafkaTemplate, ClientsKafkaProperties props) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.props = props;
+    }
+
     @Override
     public void publish(String topic, Object event) {
-        log.info("Publishing event to topic={} payload={}", topic, event);
-        // No-op for now; Kafka provider to be implemented in later feature.
+        String resolvedTopic = topic == null || topic.isBlank() ? props.getEvents() : topic;
+        log.info("Publishing eventType={} clientId={} to topic={}", (event instanceof ClientEvent) ? ((ClientEvent) event).getEventType() : "?", (event instanceof ClientEvent) ? ((ClientEvent) event).getClientId() : "?", resolvedTopic);
+        try {
+            kafkaTemplate.send(resolvedTopic, event).whenComplete((r, ex) -> {
+                if (ex == null) {
+                    try {
+                        log.info("Event sent to topic={} partition={}", resolvedTopic, r.getRecordMetadata().partition());
+                    } catch (Exception e) {
+                        log.info("Event sent to topic={}", resolvedTopic);
+                    }
+                } else {
+                    log.error("Failed to send event to topic={}", resolvedTopic, ex);
+                }
+            });
+        } catch (Exception e) {
+            log.error("Exception while sending event", e);
+        }
     }
 
 }
