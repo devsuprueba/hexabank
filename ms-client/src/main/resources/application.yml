@@ -11,6 +11,7 @@ spring:
 # Flyway config (keep enabled)
 flyway:
   enabled: true
+  locations: classpath:db/migration
 
 management:
   endpoints:
