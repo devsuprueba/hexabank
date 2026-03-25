@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/bank
+    username: user
+    password: pass
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+
+# Flyway config (keep enabled)
+flyway:
+  enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
