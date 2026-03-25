@@ -9,4 +9,6 @@ public interface ClienteRepositoryPort {
 
     Cliente save(Cliente cliente);
 
+    void deleteById(Long id);
+
 }

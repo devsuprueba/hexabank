@@ -32,6 +32,11 @@ public class JpaClienteRepositoryAdapter implements ClienteRepositoryPort {
         return toDomain(saved);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
     private Cliente toDomain(ClienteEntity e) {
         if (e == null) {
             return null;

@@ -24,4 +24,9 @@ public class InMemoryClienteRepositoryAdapter implements ClienteRepositoryPort {
         store.put(cliente.getId(), cliente);
         return cliente;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        store.remove(id);
+    }
 }
