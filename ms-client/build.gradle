@@ -38,6 +38,8 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 	// OpenAPI / Swagger UI
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+	// Apache POI for Excel report generation
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	// H2 for tests and in-memory datasource during test execution

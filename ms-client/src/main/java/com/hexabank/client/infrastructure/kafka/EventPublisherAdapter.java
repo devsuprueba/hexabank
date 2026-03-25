@@ -27,13 +27,22 @@ public class EventPublisherAdapter implements EventPublisherPort {
 
     @Override
     public void publish(String topic, Object event) {
-        String resolvedTopic = topic == null || topic.isBlank() ? props.getEvents() : topic;
-        log.info("Publishing eventType={} clientId={} to topic={}", (event instanceof ClientEvent) ? ((ClientEvent) event).getEventType() : "?", (event instanceof ClientEvent) ? ((ClientEvent) event).getClientId() : "?", resolvedTopic);
+        String resolvedTopic = topic == null || topic.isBlank()
+                ? props.getEvents()
+                : topic;
+
+        String eventTypeStr = event instanceof ClientEvent ? ((ClientEvent) event).getEventType() : "?";
+        String clientIdStr = event instanceof ClientEvent
+                ? String.valueOf(((ClientEvent) event).getClientId())
+                : "?";
+        log.info("Publishing eventType={} clientId={} to topic={}",
+                eventTypeStr, clientIdStr, resolvedTopic);
         try {
             kafkaTemplate.send(resolvedTopic, event).whenComplete((r, ex) -> {
                 if (ex == null) {
                     try {
-                        log.info("Event sent to topic={} partition={}", resolvedTopic, r.getRecordMetadata().partition());
+                        long partition = r.getRecordMetadata().partition();
+                        log.info("Event sent to topic={} partition={}", resolvedTopic, partition);
                     } catch (Exception e) {
                         log.info("Event sent to topic={}", resolvedTopic);
                     }
