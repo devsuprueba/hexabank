@@ -4,6 +4,32 @@ These rules apply to all features and generated code.
 
 ---
 
+## Architecture
+
+- Follow Hexagonal Architecture
+- Domain layer must be independent
+- Application layer orchestrates logic
+- Infrastructure implements adapters
+
+---
+
+## Code Design
+
+- Methods must be short
+- One responsibility per method
+- Prefer early returns
+- Avoid deep nesting
+- Use meaningful names
+
+---
+
+## Patterns
+
+- Use patterns only when necessary
+- Avoid over-engineering
+
+---
+
 ## Configuration Rules
 
 - All configuration MUST be defined in application.yml
@@ -13,10 +39,6 @@ These rules apply to all features and generated code.
 
 - Use @ConfigurationProperties for grouped configurations
 - Do NOT use @Value for multiple related properties
-
-Structure:
-
-config/properties/
 
 ---
 
@@ -28,59 +50,51 @@ Structure:
 
 common/constants/ApplicationConstants
 
-### Restrictions
-
-- No magic numbers
-- No duplicated literals
-
----
-
-## Code Design
-
-- Methods must be short
-- One responsibility per method
-- Prefer early returns
-- Avoid deep nesting
-
----
-
-## Pattern Usage
-
-- Use patterns only when necessary
-- Avoid over-engineering
-
 ---
 
 ## Logging
 
-- Logs must clearly describe execution flow
+- Logs must describe execution flow clearly
 - Must be readable externally
-- Include:
+- Must include:
     - traceId
-    - clienteId
-
----
-
-## Comments
-
-- Professional language only
-- No symbols or emojis
+    - business identifiers (clientId, etc.)
+- Do not use System.out
 
 ---
 
 ## Exception Handling
 
 - Use custom exceptions
-- Use global handler
+- Use global exception handler
 - Do not expose internal errors
 
 ---
 
-## Database
+## REST API Rules
+
+- Controllers must not contain business logic
+- Use DTOs for requests and responses
+- Validate input using annotations
+- Always return consistent responses
+
+---
+
+## Kafka Rules
+
+- Topics must come from configuration
+- Use structured event objects
+- Log all produced and consumed events
+- Handle errors gracefully
+
+---
+
+## Database Rules
 
 - Tables: snake_case
 - Columns: snake_case
-- Use native queries when needed
+- Use explicit mapping
+- Prefer native queries when needed
 
 ---
 
@@ -91,30 +105,29 @@ common/constants/ApplicationConstants
 
 ---
 
-## Quality
+## Testing Rules
+
+- Write unit tests for use cases
+- Write integration tests for APIs
+- Tests must be deterministic
+
+---
+
+## Code Quality
 
 - Must pass SonarQube
 - Must pass Checkstyle
 
 ---
 
-## Additional Rules (IMPORTANT)
+## No Hardcoding
 
-### No Hardcoded Values
-
-- All configurable values must come from properties or constants
-
----
-
-### Layer Responsibility
-
-- Domain must not depend on infrastructure
-- Controllers must not contain business logic
-- Use cases must orchestrate logic
+- No magic numbers
+- No duplicated literals
 
 ---
 
-### Code Completeness
+## Code Completeness
 
 - Do not generate partial implementations
 - Do not leave TODOs

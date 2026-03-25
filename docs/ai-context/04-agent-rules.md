@@ -17,3 +17,8 @@
 - Clean
 - Readable
 - Maintainable
+
+## Context Usage
+
+- Always follow global rules before implementing any feature
+- Do not repeat rules already defined in global context
