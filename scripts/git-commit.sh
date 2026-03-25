@@ -6,9 +6,6 @@
 
 # Usage:
 # ./scripts/git-commit.sh <type> <scope> "<message>"
-#
-# Example:
-# ./scripts/git-commit.sh feat api "add client endpoints"
 
 TYPE=$1
 SCOPE=$2
@@ -23,7 +20,6 @@ if [ -z "$TYPE" ] || [ -z "$SCOPE" ] || [ -z "$MESSAGE" ]; then
   exit 1
 fi
 
-# Allowed types
 ALLOWED_TYPES=("feat" "fix" "refactor" "chore" "test")
 
 VALID_TYPE=false
@@ -41,6 +37,19 @@ if [ "$VALID_TYPE" = false ]; then
 fi
 
 # =========================
+# GET CURRENT BRANCH
+# =========================
+
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+if [ -z "$CURRENT_BRANCH" ]; then
+  echo "Could not determine current branch"
+  exit 1
+fi
+
+echo "Current branch: $CURRENT_BRANCH"
+
+# =========================
 # EXECUTION
 # =========================
 
@@ -55,8 +64,8 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-echo "🚀 Pushing to origin/main..."
-git push origin main
+echo "Pushing to origin/$CURRENT_BRANCH..."
+git push -u origin "$CURRENT_BRANCH"
 
 if [ $? -ne 0 ]; then
   echo "Push failed"
