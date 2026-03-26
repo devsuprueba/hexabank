@@ -19,6 +19,24 @@ services:
       KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       ALLOW_PLAINTEXT_LISTENER: "yes"
 
+  kafka-init:
+    image: bitnami/kafka:3.5.1
+    depends_on:
+      - kafka
+    entrypoint: ["/bin/bash", "-c"]
+    command: |
+      set -e
+      echo "Waiting for Kafka broker..."
+      for i in $(seq 1 60); do
+        /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list > /dev/null 2>&1 && break || true
+        sleep 1
+      done
+      echo "Creating topics (idempotent)..."
+      /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --create --topic account-created --partitions 1 --replication-factor 1 || true
+      /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --create --topic movement-created --partitions 1 --replication-factor 1 || true
+      echo "kafka topics init completed"
+    restart: "no"
+
   postgres:
     image: postgres:15
     environment:
