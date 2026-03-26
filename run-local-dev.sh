@@ -12,6 +12,20 @@ echo "== Hexabank local dev bootstrap =="
 command -v docker >/dev/null 2>&1 || { echo "docker is required but not found" >&2; exit 1; }
 command -v docker-compose >/dev/null 2>&1 || { echo "docker-compose is required but not found" >&2; exit 1; }
 
+#!/usr/bin/env bash
+set -euo pipefail
+# Helper script to boot the local development stack for Hexabank
+# Usage: ./run-local-dev.sh
+
+ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$ROOT_DIR"
+
+echo "== Hexabank local dev bootstrap =="
+
+# Requirements
+command -v docker >/dev/null 2>&1 || { echo "docker is required but not found" >&2; exit 1; }
+command -v docker-compose >/dev/null 2>&1 || { echo "docker-compose is required but not found" >&2; exit 1; }
+
 # Copy .env.example if .env doesn't exist
 if [ ! -f .env ] && [ -f .env.example ]; then
   echo "Creating .env from .env.example"
@@ -20,15 +34,15 @@ fi
 
 echo "Building ms-client and ms-account jars (skip tests)"
 if [ -x ./ms-client/gradlew ]; then
-  ./ms-client/gradlew :ms-client:bootJar -x test
+  (cd ms-client && ./gradlew bootJar -x test)
 else
-  (cd ms-client && gradle :ms-client:bootJar -x test)
+  (cd ms-client && gradle bootJar -x test)
 fi
 
 if [ -x ./ms-account/gradlew ]; then
-  ./ms-account/gradlew :ms-account:bootJar -x test
+  (cd ms-account && ./gradlew bootJar -x test)
 else
-  (cd ms-account && gradle :ms-account:bootJar -x test)
+  (cd ms-account && gradle bootJar -x test)
 fi
 
 echo "Pulling Docker images"
@@ -63,3 +77,4 @@ echo "  ms-account: http://localhost:8082/actuator/health"
 echo "Check topics: docker-compose exec kafka /usr/bin/kafka-topics --bootstrap-server kafka:9092 --list"
 
 exit 0
+  fi
