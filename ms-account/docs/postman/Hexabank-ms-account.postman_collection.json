@@ -1,0 +1,102 @@
+{
+  "info": {
+    "_postman_id": "4f6b9f6a-hexabank-ms-account",
+    "name": "Hexabank - ms-account",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection to validate ms-account API: accounts, movements, reports (JSON & Excel)."
+  },
+  "item": [
+    {
+      "name": "Create Account - Jose Lema",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"clientId\": 1,\n  \"accountNumber\": \"478758\",\n  \"accountType\": \"Ahorros\",\n  \"ownerName\": \"Jose Lema\",\n  \"initialBalance\": 2000\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/accounts",
+          "host": ["{{baseUrl}}"],
+          "path": ["accounts"]
+        }
+      }
+    },
+    {
+      "name": "Get Accounts",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/accounts",
+          "host": ["{{baseUrl}}"],
+          "path": ["accounts"]
+        }
+      }
+    },
+    {
+      "name": "Create Movement - Deposit to Marianela (account 225487)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"movementType\": \"DEPOSIT\",\n  \"amount\": 600\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/accounts/225487/movements",
+          "host": ["{{baseUrl}}"],
+          "path": ["accounts","225487","movements"]
+        }
+      }
+    },
+    {
+      "name": "Get Movements for Account",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/accounts/{{accountNumber}}/movements?from=2022-02-01&to=2022-02-28",
+          "host": ["{{baseUrl}}"],
+          "path": ["accounts","{{accountNumber}}","movements"],
+          "query": [
+            { "key": "from", "value": "2022-02-01" },
+            { "key": "to", "value": "2022-02-28" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Generate Report (JSON)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/reports?clientId={{clientId}}&from=2022-02-01&to=2022-02-28",
+          "host": ["{{baseUrl}}"],
+          "path": ["reports"],
+          "query": [
+            { "key": "clientId", "value": "{{clientId}}" },
+            { "key": "from", "value": "2022-02-01" },
+            { "key": "to", "value": "2022-02-28" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Download Report (Excel)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/reports/excel?clientId={{clientId}}&from=2022-02-01&to=2022-02-28",
+          "host": ["{{baseUrl}}"],
+          "path": ["reports","excel"],
+          "query": [
+            { "key": "clientId", "value": "{{clientId}}" },
+            { "key": "from", "value": "2022-02-01" },
+            { "key": "to", "value": "2022-02-28" }
+          ]
+        }
+      }
+    }
+  ]
+}
