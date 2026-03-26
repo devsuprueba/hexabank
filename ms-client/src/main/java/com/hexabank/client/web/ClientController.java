@@ -24,7 +24,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientDto> create(@RequestBody ClientDto dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ClientDto> create(@jakarta.validation.Valid @RequestBody ClientDto dto, UriComponentsBuilder uriBuilder) {
         ClientEntity created = service.create(ClientMapper.toEntity(dto));
         ClientDto out = ClientMapper.toDto(created);
         HttpHeaders headers = new HttpHeaders();
@@ -44,7 +44,7 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDto> update(@PathVariable Long id, @RequestBody ClientDto dto) {
+    public ResponseEntity<ClientDto> update(@PathVariable Long id, @jakarta.validation.Valid @RequestBody ClientDto dto) {
         try {
             ClientEntity updated = service.update(id, ClientMapper.toEntity(dto));
             return ResponseEntity.ok(ClientMapper.toDto(updated));

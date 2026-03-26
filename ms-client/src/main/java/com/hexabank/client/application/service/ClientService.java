@@ -17,6 +17,10 @@ public class ClientService {
     }
 
     public ClientEntity create(ClientEntity entity) {
+        // check duplicate identification
+        if (entity.getIdentification() != null && repository.findByIdentification(entity.getIdentification()).isPresent()) {
+            throw new com.hexabank.client.application.exception.DuplicateIdentificationException("identification already exists");
+        }
         return repository.save(entity);
     }
 
@@ -30,6 +34,14 @@ public class ClientService {
 
     public ClientEntity update(Long id, ClientEntity changes) {
         return repository.findById(id).map(existing -> {
+            // if identification is changing, ensure uniqueness
+            String newIden = changes.getIdentification();
+            if (newIden != null && !newIden.equals(existing.getIdentification())) {
+                repository.findByIdentification(newIden).ifPresent(conflict -> {
+                    throw new com.hexabank.client.application.exception.DuplicateIdentificationException("identification already exists");
+                });
+                existing.setIdentification(newIden);
+            }
             existing.setName(changes.getName());
             existing.setGender(changes.getGender());
             existing.setAge(changes.getAge());
@@ -37,7 +49,7 @@ public class ClientService {
             existing.setPhone(changes.getPhone());
             existing.setStatus(changes.getStatus());
             return repository.save(existing);
-        }).orElseThrow(() -> new IllegalArgumentException("Client not found"));
+        }).orElseThrow(() -> new IllegalStateException("Client not found"));
     }
 
     public void delete(Long id) {
