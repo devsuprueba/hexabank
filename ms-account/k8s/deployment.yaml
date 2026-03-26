@@ -13,10 +13,16 @@ spec:
     metadata:
       labels:
         app: ms-account
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: ms-account
-          image: hexabank-ms-account:latest
+          image: hexabank-ms-account:0.0.1
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           env:
@@ -48,6 +54,8 @@ spec:
             requests:
               memory: "128Mi"
               cpu: "100m"
+              ephemeral-storage: "100Mi"
             limits:
               memory: "512Mi"
               cpu: "500m"
+              ephemeral-storage: "1Gi"
