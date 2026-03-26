@@ -1,6 +1,6 @@
 package com.hexabank.account.infra;
 
-import com.hexabank.account.domain.Account;
+import com.hexabank.account.domain.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
