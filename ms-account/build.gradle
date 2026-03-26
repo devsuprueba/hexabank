@@ -47,6 +47,8 @@ dependencies {
 	// H2 for tests and in-memory datasource during test execution
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
+	// Explicit autoconfigure test helpers for some Spring Boot test annotations
+	testImplementation 'org.springframework.boot:spring-boot-test-autoconfigure'
 	testImplementation 'org.springframework.boot:spring-boot-starter-actuator-test'
 	// Spring Boot starter test aggregates common testing libraries
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
