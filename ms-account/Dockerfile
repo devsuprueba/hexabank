@@ -1,7 +1,7 @@
 # Dockerfile for ms-account
 # Lightweight Java 21 image that copies the built JAR from Gradle and runs it.
 
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk
 
 LABEL org.opencontainers.image.title="hexabank-ms-account"
 LABEL org.opencontainers.image.licenses="MIT"
