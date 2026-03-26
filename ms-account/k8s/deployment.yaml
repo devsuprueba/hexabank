@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-account
+  labels:
+    app: ms-account
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-account
+  template:
+    metadata:
+      labels:
+        app: ms-account
+    spec:
+      containers:
+        - name: ms-account
+          image: hexabank-ms-account:latest
+          ports:
+            - containerPort: 8080
+          env:
+            # Database (configure via environment)
+            - name: SPRING_DATASOURCE_URL
+              value: "${SPRING_DATASOURCE_URL:-jdbc:postgresql://postgres:5432/hexabank}"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "${SPRING_DATASOURCE_USERNAME:-hexabank}"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "${SPRING_DATASOURCE_PASSWORD:-hexabank}"
+            # Kafka (configure via environment)
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "${SPRING_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            failureThreshold: 3
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
