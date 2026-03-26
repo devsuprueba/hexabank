@@ -16,7 +16,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"clientId\": 1,\n  \"accountNumber\": \"{{$randomInt}}\",\n  \"accountType\": \"Ahorros\",\n  \"ownerName\": \"Jose Lema\",\n  \"initialBalance\": 2000\n}"
+          "raw": "{\n  \"clientId\": 1,\n  \"accountNumber\": \"ACC-{{$randomInt}}\",\n  \"accountType\": \"Ahorros\",\n  \"ownerName\": \"Juan Perez\",\n  \"initialBalance\": 100.0\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/accounts",
@@ -44,7 +44,7 @@
         "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"movementType\": \"DEPOSIT\",\n  \"amount\": 600\n}"
+          "raw": "{\n  \"movementType\": \"DEPOSIT\",\n  \"amount\": 25.00\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/accounts/{{accountId}}/movements",
