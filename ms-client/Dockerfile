@@ -2,7 +2,7 @@
 # Follows the project F19 dockerization spec: lightweight Java 21 image,
 # copy built JAR from build/libs, expose port and run the application.
 
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk
 
 LABEL org.opencontainers.image.title="hexabank-ms-client"
 LABEL org.opencontainers.image.licenses="MIT"
