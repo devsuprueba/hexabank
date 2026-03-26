@@ -2,25 +2,28 @@ version: "3.8"
 
 services:
   zookeeper:
-    image: bitnami/zookeeper:3.7.0
+    image: confluentinc/cp-zookeeper:7.4.0
     environment:
-      ALLOW_ANONYMOUS_LOGIN: "yes"
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
 
   kafka:
-    image: bitnami/kafka:3
+    image: confluentinc/cp-kafka:7.4.0
     depends_on:
       - zookeeper
     ports:
       - "9092:9092"
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CFG_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   kafka-init:
-    image: bitnami/kafka:3
+    image: confluentinc/cp-kafka:7.4.0
     depends_on:
       - kafka
     entrypoint: ["/bin/bash", "-c"]
@@ -28,12 +31,12 @@ services:
       set -e
       echo "Waiting for Kafka broker..."
       for i in $(seq 1 60); do
-        /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list > /dev/null 2>&1 && break || true
+        /usr/bin/kafka-topics --bootstrap-server kafka:9092 --list > /dev/null 2>&1 && break || true
         sleep 1
       done
       echo "Creating topics (idempotent)..."
-      /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --create --topic account-created --partitions 1 --replication-factor 1 || true
-      /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --create --topic movement-created --partitions 1 --replication-factor 1 || true
+      /usr/bin/kafka-topics --bootstrap-server kafka:9092 --create --topic account-created --partitions 1 --replication-factor 1 || true
+      /usr/bin/kafka-topics --bootstrap-server kafka:9092 --create --topic movement-created --partitions 1 --replication-factor 1 || true
       echo "kafka topics init completed"
     restart: "no"
 
