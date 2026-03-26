@@ -1,0 +1,158 @@
+# Feature: Root README Documentation
+
+## User Story
+
+As an evaluator,
+I want a clear root-level README,
+so that I can understand the system and run it easily with minimal effort.
+
+---
+
+## Objective
+
+Provide a complete and clear README at the root of the project that explains:
+
+- What the system does
+- How to run it locally
+- How to run it using Docker Compose
+- How microservices interact
+
+---
+
+## Tasks
+
+### 1. Create Root README
+
+Create file:
+
+README.md
+
+---
+
+### 2. Add Project Description
+
+Include:
+
+- General description of the system
+- Purpose of the application
+- High-level overview
+
+---
+
+### 3. Describe Architecture
+
+Explain:
+
+- Microservices:
+  - ms-client
+  - ms-account
+- Communication via Kafka
+- Database usage (PostgreSQL)
+- Event-driven interaction
+
+---
+
+### 4. Explain How to Run Locally
+
+Include steps:
+
+- Run each microservice individually:
+
+  ./gradlew bootRun
+
+- Default ports
+- Access endpoints
+
+---
+
+### 5. Explain How to Run with Docker
+
+Include:
+
+- Build images (if needed)
+- Run all services:
+
+  docker-compose up
+
+- Stop services:
+
+  docker-compose down
+
+---
+
+### 6. List Services and Ports
+
+Include table:
+
+| Service    | Port |
+| ---------- | ---- |
+| ms-client  | 8080 |
+| ms-account | 8081 |
+| Kafka      | 9092 |
+| PostgreSQL | 5432 |
+
+---
+
+### 7. Explain Kafka Topics
+
+List:
+
+- account-created
+- movement-created
+
+---
+
+### 8. Explain Database
+
+- PostgreSQL is used
+- Database is created automatically
+- Schema managed by Flyway
+- Seed data included
+
+---
+
+### 9. Testing Instructions
+
+Include:
+
+- Run tests:
+
+  ./gradlew test
+
+---
+
+### 10. Postman Instructions
+
+Explain:
+
+- Where to find collection
+- How to import
+- Base URL usage
+
+---
+
+### 11. Observability
+
+Include:
+
+- Actuator endpoints
+- Prometheus endpoint
+
+---
+
+## Rules
+
+- README must be clear and concise
+- No unnecessary information
+- Use markdown formatting properly
+- Use tables for clarity
+- No hardcoded environment-specific values
+
+---
+
+## Acceptance Criteria
+
+- README exists at root
+- Instructions are clear and executable
+- System can be started using docker-compose up
+- Evaluator can understand architecture quickly

@@ -1,6 +1,7 @@
 # Feature: Environment Configuration
 
 ## User Story
+
 As a system,
 I want centralized configuration,
 so that services are configurable and maintainable.
@@ -8,10 +9,9 @@ so that services are configurable and maintainable.
 ## Tasks
 
 - Define environment variables for:
-
-    - Kafka
-    - PostgreSQL
-    - Application configs
+  - Kafka
+  - PostgreSQL
+  - Application configs
 
 ## Rules
 
@@ -22,10 +22,12 @@ so that services are configurable and maintainable.
 ## Examples
 
 Kafka:
+
 - bootstrap-servers: kafka:9092
 
 Database:
-- url: jdbc:postgresql://postgres:5432/bank
+
+- url: jdbc:postgresql://postgres:5432/hexabank
 
 ## Acceptance Criteria
 
