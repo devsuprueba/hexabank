@@ -7,6 +7,8 @@ import com.hexabank.client.application.service.ClientService;
 import com.hexabank.client.application.exception.DuplicateIdentificationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.hexabank.client.infrastructure.controller.advice.GlobalExceptionHandler;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,12 +30,12 @@ class ClientControllerTest {
     @BeforeEach
     void setUp() {
         service = Mockito.mock(ClientService.class);
-    org.springframework.validation.beanvalidation.LocalValidatorFactoryBean validator = new org.springframework.validation.beanvalidation.LocalValidatorFactoryBean();
-    validator.afterPropertiesSet();
-    mockMvc = MockMvcBuilders.standaloneSetup(new ClientController(service))
-        .setControllerAdvice(new com.hexabank.client.infrastructure.controller.advice.GlobalExceptionHandler())
-        .setValidator(validator)
-        .build();
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.afterPropertiesSet();
+        mockMvc = MockMvcBuilders.standaloneSetup(new ClientController(service))
+                .setControllerAdvice(new GlobalExceptionHandler())
+                .setValidator(validator)
+                .build();
     }
 
     @Test
@@ -74,7 +76,7 @@ class ClientControllerTest {
 
         when(service.create(any())).thenReturn(created);
 
-    mockMvc.perform(post(API_PATH)
+        mockMvc.perform(post(API_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())

@@ -8,7 +8,9 @@ public final class ClientMapper {
     private ClientMapper() {}
 
     public static ClientEntity toEntity(ClientDto dto) {
-        if (dto == null) return null;
+        if (dto == null) {
+            return null;
+        }
         ClientEntity e = new ClientEntity();
         e.setId(dto.getId());
         e.setName(dto.getName());
@@ -22,7 +24,9 @@ public final class ClientMapper {
     }
 
     public static ClientDto toDto(ClientEntity e) {
-        if (e == null) return null;
+        if (e == null) {
+            return null;
+        }
         ClientDto dto = new ClientDto();
         dto.setId(e.getId());
         dto.setName(e.getName());

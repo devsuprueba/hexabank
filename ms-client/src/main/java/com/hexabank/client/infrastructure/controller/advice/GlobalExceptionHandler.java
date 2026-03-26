@@ -1,6 +1,7 @@
 package com.hexabank.client.infrastructure.controller.advice;
 
 import com.hexabank.client.infrastructure.controller.dto.ApiError;
+import com.hexabank.client.application.exception.DuplicateIdentificationException;
 import jakarta.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +22,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-        HttpHeaders headers, org.springframework.http.HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+        MethodArgumentNotValidException ex,
+        HttpHeaders headers,
+        org.springframework.http.HttpStatusCode status,
+        WebRequest request) {
         List<String> fieldErrors = ex.getBindingResult().getFieldErrors().stream()
                 .map(e -> e.getField() + ": " + e.getDefaultMessage())
                 .collect(Collectors.toList());
@@ -37,7 +41,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ApiError> handleConstraintViolation(ConstraintViolationException ex, WebRequest request) {
+    public ResponseEntity<ApiError> handleConstraintViolation(
+        ConstraintViolationException ex,
+        WebRequest request) {
         List<String> violations = ex.getConstraintViolations().stream()
                 .map(v -> v.getPropertyPath() + ": " + v.getMessage())
                 .collect(Collectors.toList());
@@ -52,7 +58,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiError> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+    public ResponseEntity<ApiError> handleIllegalArgument(
+        IllegalArgumentException ex,
+        WebRequest request) {
         ApiError error = new ApiError();
         error.setStatus(HttpStatus.BAD_REQUEST.value());
         error.setError(HttpStatus.BAD_REQUEST.getReasonPhrase());
@@ -63,7 +71,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ApiError> handleNotFound(IllegalStateException ex, WebRequest request) {
+    public ResponseEntity<ApiError> handleNotFound(
+        IllegalStateException ex,
+        WebRequest request) {
         ApiError error = new ApiError();
         error.setStatus(HttpStatus.NOT_FOUND.value());
         error.setError(HttpStatus.NOT_FOUND.getReasonPhrase());
@@ -74,7 +84,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiError> handleAll(Exception ex, WebRequest request) {
+    public ResponseEntity<ApiError> handleAll(
+        Exception ex,
+        WebRequest request) {
         ApiError error = new ApiError();
         error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         error.setError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
@@ -84,8 +96,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
-    @ExceptionHandler(com.hexabank.client.application.exception.DuplicateIdentificationException.class)
-    public ResponseEntity<ApiError> handleDuplicateIdentification(com.hexabank.client.application.exception.DuplicateIdentificationException ex, WebRequest request) {
+    @ExceptionHandler(DuplicateIdentificationException.class)
+    public ResponseEntity<ApiError> handleDuplicateIdentification(
+        DuplicateIdentificationException ex,
+        WebRequest request) {
         ApiError error = new ApiError();
         error.setStatus(HttpStatus.CONFLICT.value());
         error.setError(HttpStatus.CONFLICT.getReasonPhrase());

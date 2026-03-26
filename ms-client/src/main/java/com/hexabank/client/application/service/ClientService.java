@@ -18,8 +18,10 @@ public class ClientService {
 
     public ClientEntity create(ClientEntity entity) {
         // check duplicate identification
-        if (entity.getIdentification() != null && repository.findByIdentification(entity.getIdentification()).isPresent()) {
-            throw new com.hexabank.client.application.exception.DuplicateIdentificationException("identification already exists");
+        String iden = entity.getIdentification();
+        if (iden != null && repository.findByIdentification(iden).isPresent()) {
+            throw new com.hexabank.client.application.exception.DuplicateIdentificationException(
+                    "identification already exists");
         }
         return repository.save(entity);
     }
@@ -38,7 +40,8 @@ public class ClientService {
             String newIden = changes.getIdentification();
             if (newIden != null && !newIden.equals(existing.getIdentification())) {
                 repository.findByIdentification(newIden).ifPresent(conflict -> {
-                    throw new com.hexabank.client.application.exception.DuplicateIdentificationException("identification already exists");
+                    throw new com.hexabank.client.application.exception.DuplicateIdentificationException(
+                            "identification already exists");
                 });
                 existing.setIdentification(newIden);
             }
