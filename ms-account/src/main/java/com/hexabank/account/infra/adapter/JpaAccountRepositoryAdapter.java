@@ -1,8 +1,10 @@
 package com.hexabank.account.infra.adapter;
 
 import com.hexabank.account.application.port.AccountRepositoryPort;
-import com.hexabank.account.domain.model.Account;
+import com.hexabank.account.domain.entity.Account;
 import com.hexabank.account.infra.AccountRepository;
+import com.hexabank.account.infra.mapper.AccountPersistenceMapper;
+import com.hexabank.account.infra.persistence.AccountEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -18,11 +20,13 @@ public class JpaAccountRepositoryAdapter implements AccountRepositoryPort {
 
     @Override
     public Account save(Account account) {
-        return repository.save(account);
+        AccountEntity entity = AccountPersistenceMapper.toEntity(account);
+        AccountEntity saved = repository.save(entity);
+        return AccountPersistenceMapper.toDomain(saved);
     }
 
     @Override
     public Optional<Account> findById(Long id) {
-        return repository.findById(id);
+        return repository.findById(id).map(AccountPersistenceMapper::toDomain);
     }
 }

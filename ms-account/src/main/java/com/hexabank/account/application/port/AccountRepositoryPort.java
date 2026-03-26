@@ -1,6 +1,6 @@
 package com.hexabank.account.application.port;
 
-import com.hexabank.account.domain.model.Account;
+import com.hexabank.account.domain.entity.Account;
 
 import java.util.Optional;
 

@@ -1,8 +1,10 @@
 package com.hexabank.account.application.usecase;
 
-import com.hexabank.account.domain.model.Account;
+import com.hexabank.account.domain.entity.Account;
+
+import java.math.BigDecimal;
 
 public interface CreateAccountUseCase {
 
-    Account create(String ownerName, java.math.BigDecimal initialBalance);
+    Account create(Long clientId, String accountNumber, BigDecimal initialBalance);
 }

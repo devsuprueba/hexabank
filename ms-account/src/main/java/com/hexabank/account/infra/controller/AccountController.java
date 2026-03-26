@@ -1,7 +1,7 @@
 package com.hexabank.account.infra.controller;
 
 import com.hexabank.account.application.usecase.CreateAccountUseCase;
-import com.hexabank.account.domain.model.Account;
+import com.hexabank.account.domain.entity.Account;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +25,7 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<Account> create(@RequestBody CreateAccountRequest req) {
-        Account created = createAccountUseCase.create(req.ownerName, req.initialBalance);
+        Account created = createAccountUseCase.create(req.clientId, req.accountNumber, req.initialBalance);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
@@ -35,6 +35,6 @@ public class AccountController {
         return ResponseEntity.notFound().build();
     }
 
-    public static record CreateAccountRequest(String ownerName, BigDecimal initialBalance) {
+    public static record CreateAccountRequest(Long clientId, String accountNumber, BigDecimal initialBalance) {
     }
 }
