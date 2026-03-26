@@ -1,0 +1,112 @@
+{
+  "info": {
+    "_postman_id": "ms-client-collection",
+    "name": "Hexabank - ms-client",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create client",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Juan Perez\",\n  \"identification\": \"12345678\",\n  \"gender\": \"M\",\n  \"age\": 30,\n  \"address\": \"Calle Falsa 123\",\n  \"phone\": \"+56912345678\",\n  \"status\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/clients",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clients"
+          ]
+        }
+      }
+    },
+    {
+      "name": "List clients",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/clients",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clients"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get client by id",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/clients/:id",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clients",
+            ":id"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update client",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Juan A. Perez\",\n  \"identification\": \"12345678\",\n  \"gender\": \"M\",\n  \"age\": 31,\n  \"address\": \"Calle Falsa 123\",\n  \"phone\": \"+56987654321\",\n  \"status\": true\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/clients/:id",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clients",
+            ":id"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete client",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/api/clients/:id",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "clients",
+            ":id"
+          ]
+        }
+      }
+    }
+  ]
+}
