@@ -7,7 +7,7 @@ services:
       ALLOW_ANONYMOUS_LOGIN: "yes"
 
   kafka:
-    image: bitnami/kafka:3.5.1
+    image: bitnami/kafka:3
     depends_on:
       - zookeeper
     ports:
@@ -20,7 +20,7 @@ services:
       ALLOW_PLAINTEXT_LISTENER: "yes"
 
   kafka-init:
-    image: bitnami/kafka:3.5.1
+    image: bitnami/kafka:3
     depends_on:
       - kafka
     entrypoint: ["/bin/bash", "-c"]
