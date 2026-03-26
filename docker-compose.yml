@@ -77,6 +77,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/hexabank
       SPRING_DATASOURCE_USERNAME: hexabank
       SPRING_DATASOURCE_PASSWORD: hexabank
+      SPRING_FLYWAY_TABLE: flyway_schema_history_ms_client
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       - postgres
@@ -92,6 +93,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/hexabank
       SPRING_DATASOURCE_USERNAME: hexabank
       SPRING_DATASOURCE_PASSWORD: hexabank
+      SPRING_FLYWAY_TABLE: flyway_schema_history_ms_account
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       - postgres
