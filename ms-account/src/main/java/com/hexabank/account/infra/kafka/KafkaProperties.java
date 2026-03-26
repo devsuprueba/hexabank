@@ -12,6 +12,10 @@ public class KafkaProperties {
 
     private String accountCreatedTopic = "account.created";
     private String movementCreatedTopic = "movement.created";
+    private String clientCreatedTopic = "cliente.created";
+    private String clientUpdatedTopic = "cliente.updated";
+    private String clientDeletedTopic = "cliente.deleted";
+    private String consumerGroupId = "account-service-group";
 
     public String getAccountCreatedTopic() {
         return accountCreatedTopic;
@@ -27,5 +31,37 @@ public class KafkaProperties {
 
     public void setMovementCreatedTopic(String movementCreatedTopic) {
         this.movementCreatedTopic = movementCreatedTopic;
+    }
+
+    public String getClientCreatedTopic() {
+        return clientCreatedTopic;
+    }
+
+    public void setClientCreatedTopic(String clientCreatedTopic) {
+        this.clientCreatedTopic = clientCreatedTopic;
+    }
+
+    public String getClientUpdatedTopic() {
+        return clientUpdatedTopic;
+    }
+
+    public void setClientUpdatedTopic(String clientUpdatedTopic) {
+        this.clientUpdatedTopic = clientUpdatedTopic;
+    }
+
+    public String getClientDeletedTopic() {
+        return clientDeletedTopic;
+    }
+
+    public void setClientDeletedTopic(String clientDeletedTopic) {
+        this.clientDeletedTopic = clientDeletedTopic;
+    }
+
+    public String getConsumerGroupId() {
+        return consumerGroupId;
+    }
+
+    public void setConsumerGroupId(String consumerGroupId) {
+        this.consumerGroupId = consumerGroupId;
     }
 }
