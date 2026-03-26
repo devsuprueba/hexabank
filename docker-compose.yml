@@ -1,5 +1,4 @@
 services:
-
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
     environment:
@@ -9,7 +8,11 @@ services:
       - "2181:2181"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "bash -c 'echo ruok | nc -w 3 localhost 2181 | grep imok || exit 1'"]
+      test:
+        [
+          "CMD-SHELL",
+          "bash -c 'echo ruok | nc -w 3 localhost 2181 | grep imok || exit 1'",
+        ]
       interval: 10s
       timeout: 5s
       retries: 12
@@ -28,7 +31,11 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "bash -c 'exec 2>/dev/null; echo > /dev/tcp/localhost/9092' || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "bash -c 'exec 2>/dev/null; echo > /dev/tcp/localhost/9092' || exit 1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 12
@@ -63,7 +70,11 @@ services:
       - db_data:/var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} || exit 1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 12
@@ -79,6 +90,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: hexabank
       SPRING_FLYWAY_TABLE: flyway_schema_history_ms_client
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_FLYWAY_BASELINE_ON_MIGRATE: true
     depends_on:
       - postgres
       - kafka
@@ -93,6 +105,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/hexabank
       SPRING_DATASOURCE_USERNAME: hexabank
       SPRING_DATASOURCE_PASSWORD: hexabank
+      SPRING_FLYWAY_BASELINE_ON_MIGRATE: true
       SPRING_FLYWAY_TABLE: flyway_schema_history_ms_account
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:

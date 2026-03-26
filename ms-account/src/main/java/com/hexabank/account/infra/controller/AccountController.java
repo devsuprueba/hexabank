@@ -40,7 +40,8 @@ public class AccountController {
         Account created = createAccountUseCase.create(
             req.getClientId(),
             req.getAccountNumber(),
-            req.getInitialBalance()
+            req.getInitialBalance(),
+            req.getOwnerName()
         );
 
         AccountResponse resp = map(created);

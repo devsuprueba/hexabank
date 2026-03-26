@@ -16,6 +16,10 @@ public class CreateAccountRequest {
     @NotNull
     private BigDecimal initialBalance;
 
+    @NotNull
+    @Size(min = 1, max = 200)
+    private String ownerName;
+
     public Long getClientId() {
         return clientId;
     }
@@ -38,5 +42,13 @@ public class CreateAccountRequest {
 
     public void setInitialBalance(BigDecimal initialBalance) {
         this.initialBalance = initialBalance;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

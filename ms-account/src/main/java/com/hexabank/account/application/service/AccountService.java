@@ -17,8 +17,10 @@ public class AccountService implements CreateAccountUseCase {
     }
 
     @Override
-    public Account create(Long clientId, String accountNumber, BigDecimal initialBalance) {
+    public Account create(Long clientId, String accountNumber, BigDecimal initialBalance, String ownerName) {
         Account account = new Account(clientId, accountNumber, initialBalance);
+        // set ownerName from request (domain keeps ownerName as optional field)
+        account.setOwnerName(ownerName);
         return repository.save(account);
     }
 }

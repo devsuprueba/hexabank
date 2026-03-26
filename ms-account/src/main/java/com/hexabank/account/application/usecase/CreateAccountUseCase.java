@@ -6,5 +6,5 @@ import java.math.BigDecimal;
 
 public interface CreateAccountUseCase {
 
-    Account create(Long clientId, String accountNumber, BigDecimal initialBalance);
+    Account create(Long clientId, String accountNumber, BigDecimal initialBalance, String ownerName);
 }

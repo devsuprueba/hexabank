@@ -23,6 +23,7 @@ public final class AccountPersistenceMapper {
         String accountNumber = e.getAccountNumber() == null ? "" : e.getAccountNumber();
         Account a = new Account(clientId, accountNumber, e.getInitialBalance());
         a.setId(e.getId());
+        a.setOwnerName(e.getOwnerName());
         a.setAccountType(e.getAccountType());
         a.setStatus(e.getStatus());
         a.setAccountType(e.getAccountType());
@@ -41,7 +42,8 @@ public final class AccountPersistenceMapper {
         e.setClientId(domain.getClientId());
         e.setAccountNumber(domain.getAccountNumber());
         e.setAccountType(domain.getAccountType());
-        // ownerName does not exist in domain; leave null or map if available
+        // map ownerName from domain if present
+        e.setOwnerName(domain.getOwnerName());
         e.setInitialBalance(domain.getInitialBalance());
         e.setCurrentBalance(domain.getCurrentBalance());
         e.setStatus(domain.getStatus());

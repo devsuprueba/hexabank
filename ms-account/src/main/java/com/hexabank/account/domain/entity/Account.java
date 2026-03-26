@@ -17,6 +17,7 @@ public class Account {
     private Long id;
     private final Long clientId;
     private final String accountNumber;
+    private String ownerName;
     private String accountType;
     private final BigDecimal initialBalance;
     private BigDecimal currentBalance;
@@ -40,6 +41,17 @@ public class Account {
         this.status = "ACTIVE";
         this.createdAt = OffsetDateTime.now();
         this.updatedAt = this.createdAt;
+    }
+
+    /**
+     * Optional ownerName setter/getter for persistence and DTO mapping.
+     */
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     /* --- Business operations --- */
