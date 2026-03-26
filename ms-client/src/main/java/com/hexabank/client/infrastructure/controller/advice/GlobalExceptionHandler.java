@@ -84,4 +84,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
+    @ExceptionHandler(com.hexabank.client.application.exception.DuplicateIdentificationException.class)
+    public ResponseEntity<ApiError> handleDuplicateIdentification(com.hexabank.client.application.exception.DuplicateIdentificationException ex, WebRequest request) {
+        ApiError error = new ApiError();
+        error.setStatus(HttpStatus.CONFLICT.value());
+        error.setError(HttpStatus.CONFLICT.getReasonPhrase());
+        error.setMessage(ex.getMessage());
+        error.setPath(request.getDescription(false));
+        log.warn("Duplicate identification: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
 }

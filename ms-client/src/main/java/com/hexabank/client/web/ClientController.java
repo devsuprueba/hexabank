@@ -24,11 +24,13 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientDto> create(@jakarta.validation.Valid @RequestBody ClientDto dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ClientDto> create(@jakarta.validation.Valid @RequestBody ClientDto dto) {
         ClientEntity created = service.create(ClientMapper.toEntity(dto));
         ClientDto out = ClientMapper.toDto(created);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/api/clients/{id}").buildAndExpand(created.getId()).toUri());
+        // Build Location header based on current request
+        headers.setLocation(org.springframework.web.servlet.support.ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}").buildAndExpand(created.getId()).toUri());
         return new ResponseEntity<>(out, headers, HttpStatus.CREATED);
     }
 
@@ -45,12 +47,8 @@ public class ClientController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ClientDto> update(@PathVariable Long id, @jakarta.validation.Valid @RequestBody ClientDto dto) {
-        try {
-            ClientEntity updated = service.update(id, ClientMapper.toEntity(dto));
-            return ResponseEntity.ok(ClientMapper.toDto(updated));
-        } catch (IllegalArgumentException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        ClientEntity updated = service.update(id, ClientMapper.toEntity(dto));
+        return ResponseEntity.ok(ClientMapper.toDto(updated));
     }
 
     @DeleteMapping("/{id}")
