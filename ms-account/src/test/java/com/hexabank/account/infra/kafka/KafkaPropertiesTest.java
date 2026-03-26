@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = KafkaPropertiesTest.TestConfig.class)
 @TestPropertySource(properties = {
-        "hexabank.kafka.account-created-topic=acct.created",
-        "hexabank.kafka.client-created-topic=cliente.created.test",
-        "hexabank.kafka.consumer-group-id=test-group"
+    "hexabank.kafka.account-created-topic=acct.created",
+    "hexabank.kafka.client-created-topic=cliente.created.test",
+    "hexabank.kafka.consumer-group-id=test-group"
 })
 public class KafkaPropertiesTest {
 
