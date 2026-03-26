@@ -1,0 +1,64 @@
+# Feature: Flyway Seed Data
+
+## User Story
+
+As a system,
+I want initial client data,
+so that client-related use cases can be validated and tested.
+
+---
+
+## Tasks
+
+### 1. Create Migration Script
+
+Create file:
+
+src/main/resources/db/migration/V4\_\_seed_clients.sql
+
+---
+
+### 2. Insert Sample Data
+
+Insert sample clients with fields:
+
+- id
+- name
+- gender
+- age
+- identification
+- address
+- phone
+- status
+
+---
+
+### 3. Ensure Data Consistency
+
+- IDs must be unique
+- Identification must be unique
+- Status must be valid (true/false)
+
+---
+
+## Example Data
+
+INSERT INTO client (id, name, gender, age, identification, address, phone, status)
+VALUES
+(1, 'Juan Perez', 'M', 30, '1234567890', 'Calle 1', '3001234567', true),
+(2, 'Maria Lopez', 'F', 28, '0987654321', 'Calle 2', '3007654321', true);
+
+---
+
+## Rules
+
+- Data must be realistic
+- Must not break constraints
+- Must be idempotent if possible
+
+---
+
+## Acceptance Criteria
+
+- Data is loaded automatically on startup
+- Clients are available for API testing

@@ -1,0 +1,83 @@
+# Feature: Postman Collection
+
+## User Story
+
+As an evaluator,
+I want to test the client API easily,
+so that I can validate all functionalities without manual setup.
+
+---
+
+## Tasks
+
+### 1. Create Postman Collection File
+
+File:
+
+postman/ms-client.postman_collection.json
+
+---
+
+### 2. Include Endpoints
+
+#### Create Client
+
+POST /clients
+
+Body example:
+{
+"name": "Juan Perez",
+"gender": "M",
+"age": 30,
+"identification": "1234567890",
+"address": "Calle 1",
+"phone": "3001234567",
+"status": true
+}
+
+---
+
+#### Get Clients
+
+GET /clients
+
+---
+
+#### Get Client by ID
+
+GET /clients/{id}
+
+---
+
+#### Update Client
+
+PUT /clients/{id}
+
+---
+
+#### Delete Client
+
+DELETE /clients/{id}
+
+---
+
+### 3. Environment Variables
+
+Define:
+
+- base_url = http://localhost:8080
+
+---
+
+## Rules
+
+- Use clear naming for requests
+- Use environment variables
+- Avoid hardcoded URLs
+
+---
+
+## Acceptance Criteria
+
+- Collection imports successfully
+- All endpoints can be tested

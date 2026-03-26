@@ -18,8 +18,9 @@ public class AccountEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "client_id")
+    @Column(name = "client_id", nullable = false)
     private Long clientId;
+
 
     @Column(name = "account_number", length = 50)
     private String accountNumber;

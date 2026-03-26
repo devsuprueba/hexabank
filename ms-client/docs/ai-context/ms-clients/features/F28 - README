@@ -1,0 +1,118 @@
+# MS-CLIENT
+
+## Description
+
+This microservice manages client information.
+
+It provides CRUD operations for clients and integrates with other services using event-driven architecture.
+
+---
+
+## Architecture
+
+The project follows Hexagonal Architecture:
+
+- domain: business models and rules
+- application: use cases and orchestration
+- infrastructure: controllers, persistence, kafka, configuration
+
+---
+
+## Technologies
+
+- Java 21
+- Spring Boot
+- JPA (PostgreSQL)
+- Flyway
+- Kafka
+- Lombok
+- OpenAPI
+- Resilience4j
+
+---
+
+## How to Run Locally
+
+### 1. Run application
+
+./gradlew bootRun
+
+---
+
+### 2. Access API
+
+http://localhost:8080
+
+---
+
+### 3. Swagger
+
+http://localhost:8080/swagger-ui.html
+
+---
+
+## Endpoints
+
+### Clients
+
+- POST /clients
+- GET /clients
+- GET /clients/{id}
+- PUT /clients/{id}
+- DELETE /clients/{id}
+
+---
+
+## Database
+
+- Managed with Flyway
+- Migrations located in:
+  src/main/resources/db/migration
+
+---
+
+## Seed Data
+
+- Initial clients are loaded automatically via Flyway
+
+---
+
+## Testing
+
+Run:
+
+./gradlew test
+
+---
+
+## Docker
+
+Build image:
+
+docker build -t ms-client .
+
+Run container:
+
+docker run -p 8080:8080 ms-client
+
+---
+
+## Notes
+
+- No hardcoded values
+- Configuration via application.yml
+- Logs include traceability context
+
+---
+
+## Postman
+
+Import collection:
+
+postman/ms-client.postman_collection.json
+
+---
+
+## Author
+
+Project developed as part of a technical assessment.
