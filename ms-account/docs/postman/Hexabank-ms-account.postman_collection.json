@@ -37,7 +37,8 @@
       }
     },
     {
-      "name": "Create Movement - Deposit to Marianela (account 225487)",
+      "name": "Create Movement (example) - Deposit",
+      "description": "Creates a movement for an existing account. NOTE: the API expects the account primary key (id) in the path, use {{accountId}}.",
       "request": {
         "method": "POST",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
@@ -46,9 +47,9 @@
           "raw": "{\n  \"movementType\": \"DEPOSIT\",\n  \"amount\": 600\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/accounts/225487/movements",
+          "raw": "{{baseUrl}}/accounts/{{accountId}}/movements",
           "host": ["{{baseUrl}}"],
-          "path": ["accounts","225487","movements"]
+          "path": ["accounts","{{accountId}}","movements"]
         }
       }
     },
@@ -57,9 +58,9 @@
       "request": {
         "method": "GET",
         "url": {
-          "raw": "{{baseUrl}}/accounts/{{accountNumber}}/movements?from=2022-02-01&to=2022-02-28",
+          "raw": "{{baseUrl}}/accounts/{{accountId}}/movements?from=2022-02-01&to=2022-02-28",
           "host": ["{{baseUrl}}"],
-          "path": ["accounts","{{accountNumber}}","movements"],
+          "path": ["accounts","{{accountId}}","movements"],
           "query": [
             { "key": "from", "value": "2022-02-01" },
             { "key": "to", "value": "2022-02-28" }

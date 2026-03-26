@@ -21,6 +21,30 @@ public class JpaAccountRepositoryAdapter implements AccountRepositoryPort {
 
     @Override
     public Account save(Account account) {
+        // If the account already exists in the DB, load the persisted entity and update
+        // its mutable fields in-place so we preserve the @Version value managed by Hibernate.
+        if (account.getId() != null) {
+            return repository.findById(account.getId())
+                    .map(existing -> {
+                        // update mutable fields only; keep version and createdAt as-is
+                        existing.setClientId(account.getClientId());
+                        existing.setAccountNumber(account.getAccountNumber());
+                        existing.setAccountType(account.getAccountType());
+                        existing.setOwnerName(account.getOwnerName());
+                        existing.setInitialBalance(account.getInitialBalance());
+                        existing.setCurrentBalance(account.getCurrentBalance());
+                        existing.setStatus(account.getStatus());
+                        existing.setUpdatedAt(account.getUpdatedAt());
+                        AccountEntity saved = repository.save(existing);
+                        return AccountPersistenceMapper.toDomain(saved);
+                    })
+                    .orElseGet(() -> {
+                        AccountEntity entity = AccountPersistenceMapper.toEntity(account);
+                        AccountEntity saved = repository.save(entity);
+                        return AccountPersistenceMapper.toDomain(saved);
+                    });
+        }
+
         AccountEntity entity = AccountPersistenceMapper.toEntity(account);
         AccountEntity saved = repository.save(entity);
         return AccountPersistenceMapper.toDomain(saved);
