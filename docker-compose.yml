@@ -1,6 +1,6 @@
-version: "3.8"
-
 services:
+services:
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
     environment:
@@ -8,6 +8,12 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo ruok | nc -w 3 localhost 2181 | grep imok || exit 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
 
   kafka:
     image: confluentinc/cp-kafka:7.4.0
@@ -21,6 +27,12 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 2>/dev/null; echo > /dev/tcp/localhost/9092' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
 
   kafka-init:
     image: confluentinc/cp-kafka:7.4.0
@@ -30,7 +42,7 @@ services:
     command: |
       set -e
       echo "Waiting for Kafka broker..."
-      for i in $(seq 1 60); do
+      for i in $(seq 1 120); do
         /usr/bin/kafka-topics --bootstrap-server kafka:9092 --list > /dev/null 2>&1 && break || true
         sleep 1
       done
@@ -50,6 +62,12 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
 
   ms-client:
     build:
@@ -64,6 +82,7 @@ services:
     depends_on:
       - postgres
       - kafka
+    restart: unless-stopped
 
   ms-account:
     build:
@@ -78,6 +97,7 @@ services:
     depends_on:
       - postgres
       - kafka
+    restart: unless-stopped
 
 volumes:
   db_data:
