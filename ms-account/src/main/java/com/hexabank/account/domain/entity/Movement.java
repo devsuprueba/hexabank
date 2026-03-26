@@ -20,7 +20,13 @@ public class Movement {
     private final BigDecimal amount;
     private final BigDecimal balanceAfterMovement;
 
-    public Movement(Long accountId, OffsetDateTime movementDate, MovementType movementType, BigDecimal amount, BigDecimal balanceAfterMovement) {
+    public Movement(
+            Long accountId,
+            OffsetDateTime movementDate,
+            MovementType movementType,
+            BigDecimal amount,
+            BigDecimal balanceAfterMovement
+    ) {
         this.accountId = accountId;
         this.movementDate = movementDate == null ? OffsetDateTime.now() : movementDate;
         this.movementType = movementType;
@@ -58,10 +64,19 @@ public class Movement {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Movement)) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Movement)) {
+            return false;
+        }
+
         Movement movement = (Movement) o;
-        return Objects.equals(accountId, movement.accountId) && Objects.equals(movementDate, movement.movementDate) && movementType == movement.movementType && Objects.equals(amount, movement.amount);
+        return Objects.equals(accountId, movement.accountId)
+                && Objects.equals(movementDate, movement.movementDate)
+                && movementType == movement.movementType
+                && Objects.equals(amount, movement.amount);
     }
 
     @Override

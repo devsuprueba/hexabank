@@ -29,6 +29,7 @@ public class Account {
         if (clientId == null || clientId <= 0) {
             throw new DomainException("clientId must be provided and positive");
         }
+
         if (accountNumber == null || accountNumber.isBlank()) {
             throw new DomainException("accountNumber is mandatory");
         }
@@ -48,7 +49,13 @@ public class Account {
         }
         this.currentBalance = this.currentBalance.add(amount);
         this.updatedAt = OffsetDateTime.now();
-        Movement m = new Movement(this.id, this.updatedAt, Movement.MovementType.DEPOSIT, amount, this.currentBalance);
+        Movement m = new Movement(
+                this.id,
+                this.updatedAt,
+                Movement.MovementType.DEPOSIT,
+                amount,
+                this.currentBalance
+        );
         this.movements.add(m);
         return m;
     }
@@ -57,13 +64,21 @@ public class Account {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new DomainException("withdraw amount must be positive");
         }
+
         if (this.currentBalance.subtract(amount).compareTo(BigDecimal.ZERO) < 0) {
             throw new DomainException("withdrawal would leave account with negative balance");
         }
+
         this.currentBalance = this.currentBalance.subtract(amount);
         this.updatedAt = OffsetDateTime.now();
         // For withdrawals we store negative amount to follow spec guidance
-        Movement m = new Movement(this.id, this.updatedAt, Movement.MovementType.WITHDRAWAL, amount.negate(), this.currentBalance);
+        Movement m = new Movement(
+                this.id,
+                this.updatedAt,
+                Movement.MovementType.WITHDRAWAL,
+                amount.negate(),
+                this.currentBalance
+        );
         this.movements.add(m);
         return m;
     }
@@ -123,10 +138,17 @@ public class Account {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Account)) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Account)) {
+            return false;
+        }
+
         Account account = (Account) o;
-        return Objects.equals(clientId, account.clientId) && Objects.equals(accountNumber, account.accountNumber);
+        return Objects.equals(clientId, account.clientId)
+                && Objects.equals(accountNumber, account.accountNumber);
     }
 
     @Override

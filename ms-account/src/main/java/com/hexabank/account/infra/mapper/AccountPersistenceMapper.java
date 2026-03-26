@@ -15,8 +15,13 @@ public final class AccountPersistenceMapper {
     }
 
     public static Account toDomain(AccountEntity e) {
-        if (e == null) return null;
-        Account a = new Account(e.getClientId() == null ? 0L : e.getClientId(), e.getAccountNumber() == null ? "" : e.getAccountNumber(), e.getInitialBalance());
+        if (e == null) {
+            return null;
+        }
+
+        Long clientId = e.getClientId() == null ? 0L : e.getClientId();
+        String accountNumber = e.getAccountNumber() == null ? "" : e.getAccountNumber();
+        Account a = new Account(clientId, accountNumber, e.getInitialBalance());
         a.setId(e.getId());
         a.setAccountType(e.getAccountType());
         a.setStatus(e.getStatus());
@@ -27,7 +32,10 @@ public final class AccountPersistenceMapper {
     }
 
     public static AccountEntity toEntity(Account domain) {
-        if (domain == null) return null;
+        if (domain == null) {
+            return null;
+        }
+
         AccountEntity e = new AccountEntity();
         e.setId(domain.getId());
         e.setClientId(domain.getClientId());
@@ -43,14 +51,27 @@ public final class AccountPersistenceMapper {
     }
 
     public static Movement toDomainMovement(MovementEntity me) {
-        if (me == null) return null;
-        Movement m = new Movement(me.getAccountId(), me.getMovementDate(), Movement.MovementType.valueOf(me.getMovementType()), me.getAmount(), me.getBalanceAfterMovement());
+        if (me == null) {
+            return null;
+        }
+
+        Movement.MovementType type = Movement.MovementType.valueOf(me.getMovementType());
+        Movement m = new Movement(
+                me.getAccountId(),
+                me.getMovementDate(),
+                type,
+                me.getAmount(),
+                me.getBalanceAfterMovement()
+        );
         m.setId(me.getId());
         return m;
     }
 
     public static MovementEntity toEntityMovement(Movement m) {
-        if (m == null) return null;
+        if (m == null) {
+            return null;
+        }
+
         MovementEntity me = new MovementEntity();
         me.setId(m.getId());
         me.setAccountId(m.getAccountId());
