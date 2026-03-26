@@ -7,7 +7,8 @@
   },
   "item": [
     {
-      "name": "Create Account - Jose Lema",
+      "name": "Create Account (example)",
+      "description": "Creates a new account. The request body MUST include ownerName (string). Use Postman dynamic variables to avoid collisions (e.g. {{$randomInt}} for accountNumber).",
       "request": {
         "method": "POST",
         "header": [
@@ -15,7 +16,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"clientId\": 1,\n  \"accountNumber\": \"478758\",\n  \"accountType\": \"Ahorros\",\n  \"ownerName\": \"Jose Lema\",\n  \"initialBalance\": 2000\n}"
+          "raw": "{\n  \"clientId\": 1,\n  \"accountNumber\": \"{{$randomInt}}\",\n  \"accountType\": \"Ahorros\",\n  \"ownerName\": \"Jose Lema\",\n  \"initialBalance\": 2000\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/accounts",
