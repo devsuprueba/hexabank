@@ -20,10 +20,14 @@ public class ObservabilityIntegrationTest {
     private int port;
 
     private final HttpClient client = HttpClient.newHttpClient();
+    private static final String LOCALHOST_PREFIX = "http://localhost:";
 
     @Test
     void actuatorHealthIsUp() throws Exception {
-        HttpRequest req = HttpRequest.newBuilder(new URI("http://localhost:" + port + "/actuator/health")).GET().build();
+        String base = LOCALHOST_PREFIX + port;
+        HttpRequest req = HttpRequest.newBuilder(new URI(base + "/actuator/health"))
+                .GET()
+                .build();
         HttpResponse<String> r = client.send(req, HttpResponse.BodyHandlers.ofString());
         assertThat(r.statusCode()).isBetween(200, 299);
         assertThat(r.body()).containsIgnoringCase("status");
@@ -31,7 +35,10 @@ public class ObservabilityIntegrationTest {
 
     @Test
     void metricsEndpointReturnsJson() throws Exception {
-        HttpRequest req = HttpRequest.newBuilder(new URI("http://localhost:" + port + "/actuator/metrics")).GET().build();
+        String base = LOCALHOST_PREFIX + port;
+        HttpRequest req = HttpRequest.newBuilder(new URI(base + "/actuator/metrics"))
+                .GET()
+                .build();
         HttpResponse<String> r = client.send(req, HttpResponse.BodyHandlers.ofString());
         assertThat(r.statusCode()).isBetween(200, 299);
         assertThat(r.body()).contains("names");
@@ -39,7 +46,10 @@ public class ObservabilityIntegrationTest {
 
     @Test
     void prometheusEndpointIsAvailable() throws Exception {
-        HttpRequest req = HttpRequest.newBuilder(new URI("http://localhost:" + port + "/actuator/prometheus")).GET().build();
+        String base = LOCALHOST_PREFIX + port;
+        HttpRequest req = HttpRequest.newBuilder(new URI(base + "/actuator/prometheus"))
+                .GET()
+                .build();
         HttpResponse<String> r = client.send(req, HttpResponse.BodyHandlers.ofString());
         int status = r.statusCode();
         // Prometheus endpoint may not be available in all profiles/environments. Accept 200 or 404.
